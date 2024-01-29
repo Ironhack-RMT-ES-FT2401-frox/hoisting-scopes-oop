@@ -147,3 +147,135 @@ console.log(varSinDeclarar)
 - Hoisting y Scopes son preguntas tecnicas comunes en entrevistas. Estudiar esto cuando nos preparemos para entrevistas.
 
 */
+
+
+
+// Crear metodos en JS y la palabra reservada "this".
+
+
+let person = {
+  name: "alicia",
+  place: "el pais de las maravillas",
+  friends: ["sombrerero", "gato chesire", "liebre de marzo", "humty dumpty", "conejo blanco"],
+  saludar(personaASaludar) {
+    // metodo es el nombre que se le da a una funcion que pertenece a un objeto.
+    // return `hola, mi nombre es ${person.name}`
+
+    // la palabra "this"
+    console.log(this) // en objetos, this siempre apunta al objeto donde se esta llamando
+    return `hola ${personaASaludar}, mi nombre es ${this.name} de ${this.place}`
+  },
+  tamañoActual() {
+
+    let randomNumber = Math.random() * 100 // 0 - 99.999999999
+
+    if (randomNumber < 50) {
+      return `${this.name} es pequeña`
+    } else {
+      return `${this.name} es grande`
+    }
+    
+  },
+  desearFelizNoCumpleaños() {
+
+    // este metodo va a desear feliz no cumpleaños a un amigo aleatorio de Alicia
+
+    let cantidadDeAmigos = this.friends.length
+    let randomFriendIndexFloat = Math.random() * cantidadDeAmigos // 0 - 4.999999
+    let randomFriendIndex = Math.floor(randomFriendIndexFloat)
+    let unAmigo = this.friends[randomFriendIndex] // 0, 1, 2, 3, 4
+
+    return `Feliz feliz no cumpleaños a ${unAmigo}`
+  }
+}
+
+
+
+
+console.log( person.name )
+console.log( person.saludar("reina") )
+
+person.name = "alice";
+console.log( person.name )
+console.log( person.saludar("gusano") )
+
+console.log( person.tamañoActual() )
+
+console.log(person.desearFelizNoCumpleaños())
+
+
+
+
+// Classes
+
+// las clases deberian escribirse PascalCasing
+class Hero {
+
+  // definimos como estaran organizadas las propiedades
+  constructor( parametroName, parametroSecretIdentity ) {
+    // this this.nombreDePropiedad asignamos propiedades a los objetos creados de esta clase
+    this.name = parametroName;
+    this.secretIdentity = parametroSecretIdentity;
+    this.isEvil = false; // ejemplo de una propiedad estatica
+  }
+
+  // definimos como estaran organizadas los metodos
+  revelarIdentidadSecreta() {
+    return `${this.name} dice: Mi identidad secreta es: ${this.secretIdentity}`
+  }
+
+  convertirseEnVillano() {
+    this.isEvil = true;
+    return `${this.name} se ha vuelto villano! Muahahahaha!`
+  }
+
+}
+
+// como generamos un objeto basado en esta plantilla
+
+let heroObjet1 = new Hero( "Iron Man", "Tony Stark" )
+console.log(heroObjet1)
+
+// podría hacer => heroObjet1.isEvil = true
+console.log( heroObjet1.revelarIdentidadSecreta() )
+console.log( heroObjet1.convertirseEnVillano() )
+console.log(heroObjet1)
+
+let heroObjet2 = new Hero( "Black Widow", "Natasha Romanoff" )
+console.log(heroObjet2) 
+
+console.log( heroObjet2.revelarIdentidadSecreta() )
+
+// console.log( new Hero("patataman", "bob") )
+
+
+// que pasa si yo quiero un subplantilla para superheroes (subclase)
+
+// class subclase extens clasePadre {...}
+class SuperHero extends Hero {
+
+  // propiedades
+  constructor(parametroName, parametroSecretIdentity, superpower) {
+    super(parametroName, parametroSecretIdentity)
+    // super pasa todos los argumentos a la clase padre para definir las propiedades indicadas en la clase padre
+    this.superPower = superpower
+
+  }
+
+  // metodos
+  usarSuperPoder(target) {
+    return `${this.name} ha usado el poder de ${this.superPower} sobre ${target}`
+  }
+
+}
+
+let superheroObject1 = new SuperHero("Spider-man", "Peter Parker", "Lanzar telarañas")
+console.log(superheroObject1)
+
+console.log( superheroObject1.revelarIdentidadSecreta())
+
+
+let superheroObject2 = new SuperHero("Wolverine", "Logan", "garras de adamantiun")
+
+console.log(superheroObject1.usarSuperPoder(superheroObject2.name))
+console.log(superheroObject2.usarSuperPoder(heroObjet1.name))
